@@ -1,0 +1,38 @@
+# Name displayed in the GitHub Actions tab
+name: First
+
+# Defines the events that trigger this workflow
+on:
+  # Allows the workflow to be started manually
+  # from the GitHub Actions UI using the "Run workflow" button
+  workflow_dispatch:
+
+# A workflow contains one or more jobs
+jobs:
+
+  # Job ID (must be unique within this workflow)
+  build:
+    # Creates an Ephermal(last for sometime/temporary) Ubuntu environment for the job./Creates container with ubuntu after the job completes it will delete it
+    runs-on: ubuntu-latest
+
+    # List of actions/commands to execute in this job
+    steps:
+
+      # Executes a shell command on the runner
+      - run: echo "Building"
+
+  # Another job ID
+  test:
+
+    # This job depends on the successful completion
+    # of the 'build' job
+    needs: build
+
+    # Runs on an Ubuntu runner
+    runs-on: ubuntu-latest
+
+    # Steps to execute in the test job
+    steps:
+
+      # Executes a shell command
+      - run: echo "Testing"
