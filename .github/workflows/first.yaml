@@ -1,0 +1,28 @@
+name: My Firts Work Flow # Name displayed in the GitHub Actions tab
+
+on: # Defines the events that trigger this workflow
+
+  workflow_dispatch: #The workflow_dispatch event allows you to manually trigger a workflow run
+
+jobs: # A workflow contains one or more jobs
+
+  build:
+
+    runs-on: ubuntu-latest # Creates an Ephermal(last for sometime/temporary) Ubuntu environment for the job./Creates container with ubuntu after the job completes it will delete it
+
+    steps:
+      - name: Build code
+        run: echo "Building code"
+
+  test:
+
+    needs: build
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test code
+        run: echo "Testing code"        
+        
+
+
