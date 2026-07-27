@@ -4,18 +4,40 @@ on:
   push:
 
 jobs:
-  docker:
+  code:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Login to Docker Hub
+      - name: clone the code
+        uses: actions/checkout@v4
+
+      - name: check files
+        run: ls -la
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Ruff
+        run: pip install ruff
+
+      - name: Run Ruff linter
+        run: ruff check .
+
+      - name: Check formatting
+        run: ruff format --check .  
+        
+  docker:
+    needs: [code]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
         uses: docker/login-action@v4
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
+      - name: Build and push
         uses: docker/build-push-action@v7
         with:
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/python_app:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/pythonapp:latest
