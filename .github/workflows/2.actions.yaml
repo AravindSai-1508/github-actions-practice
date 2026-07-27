@@ -1,0 +1,32 @@
+name: Python format check
+
+on: # trigger
+  push: # whenever some once push code in this repository
+    paths: "*.py" #only when Python files are changed
+    
+jobs:
+  code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone the code
+        uses: actions/checkout@v4
+
+      - name: check files
+        run: ls -la
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Ruff
+        run: pip install ruff
+
+      - name: Run Ruff linter
+        run: ruff check .
+
+      - name: Check formatting
+        run: ruff format --check .        
+
+        
+        
