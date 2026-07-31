@@ -1,0 +1,12 @@
+name: Run the code in runners
+on: 
+  push:
+jobs:
+  Build:
+    runs-on: self-hosted
+    steps:
+      - name: clone the code
+        uses: actions/checkout@v4
+        
+      - name: check files
+        run: ls -la        
